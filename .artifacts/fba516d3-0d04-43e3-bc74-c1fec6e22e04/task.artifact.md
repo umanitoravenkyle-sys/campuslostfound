@@ -1,0 +1,8 @@
+- [x] Fix Build Configuration (Navigation Compose)
+- [x] Centralize Theme and Colors
+- [x] Cleanup Screens (Package names, imports, local color definitions)
+- [x] Implement App Navigation in MainActivity
+- [x] Add Report Found Item screen to navigation
+- [x] Add My Reports screen to navigation
+- [x] Add Profile screen to navigation and fix ProfileMenuItem clickable
+- [x] Verify Build and Navigation
