@@ -1,17 +1,7 @@
 package com.example.campuslostfound
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -79,26 +69,16 @@ fun MyReportsScreen(
     }
 
     Scaffold(
-
         containerColor = MaterialTheme.colorScheme.background,
-
-        // HEADER
-
-
         topBar = {
-
             TopAppBar(
-
                 title = {
-
                     Column {
-
                         Text(
                             text = "My Reports",
                             color = MaterialTheme.colorScheme.onPrimary,
                             fontWeight = FontWeight.Bold
                         )
-
                         Text(
                             text = "View your reported items",
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.85f),
@@ -106,13 +86,8 @@ fun MyReportsScreen(
                         )
                     }
                 },
-
                 navigationIcon = {
-
-                    IconButton(
-                        onClick = onBackClick
-                    ) {
-
+                    IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Back",
@@ -120,84 +95,66 @@ fun MyReportsScreen(
                         )
                     }
                 },
-
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
-
     ) { paddingValues ->
-
-        LazyColumn(
-
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp),
-
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-
-            item {
-
-                Spacer(
-                    modifier = Modifier.height(8.dp)
-                )
-
-                // PAGE TITLE
-
-
-                Text(
-                    text = "Your Reports",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-
-                Spacer(
-                    modifier = Modifier.height(4.dp)
-                )
-
-                Text(
-                    text = "Items you have reported as lost or found.",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(
-                    modifier = Modifier.height(8.dp)
-                )
-
-                Text(
-                    text = "${myReports.size} report(s)",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+        if (user == null) {
+            Box(Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
-
-            // REPORT LIST
-
-
-            items(myReports) { report ->
-
-                MyReportCard(
-                    report = report,
-                    onClick = {
-                        onReportClick(report.id)
-                    },
-                    onResolveClick = {
-                        showResolveDialog = report.id
-                    }
-                )
+        } else if (myReports.isEmpty()) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(paddingValues).padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(Icons.Default.Category, contentDescription = null, modifier = Modifier.size(64.dp), tint = Color.LightGray)
+                Spacer(Modifier.height(16.dp))
+                Text("No reports found", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
+                Text("Your reported items will appear here.", color = Color.Gray)
             }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(paddingValues)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Your Reports",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Text(
+                        text = "Items you have reported as lost or found.",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "${myReports.size} report(s)",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
 
-            item {
+                items(myReports) { report ->
+                    MyReportCard(
+                        report = report,
+                        onClick = { onReportClick(report.id) },
+                        onResolveClick = { showResolveDialog = report.id }
+                    )
+                }
 
-                Spacer(
-                    modifier = Modifier.height(20.dp)
-                )
+                item { Spacer(modifier = Modifier.height(20.dp)) }
             }
         }
     }
@@ -214,212 +171,152 @@ fun MyReportCard(
     onClick: () -> Unit,
     onResolveClick: () -> Unit
 ) {
+    val backgroundColor = if (report.type == "Lost") Color(0xFFFFEBEE) else Color(0xFFE3F2FD)
+    val contentColor = if (report.type == "Lost") Color(0xFFB71C1C) else Color(0xFF0D47A1)
 
     Card(
-
-        modifier = Modifier
-            .fillMaxWidth(),
-
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = backgroundColor
         ),
-
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 3.dp
-        ),
-
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
         onClick = onClick
     ) {
-
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp)
+            modifier = Modifier.fillMaxWidth().padding(14.dp)
         ) {
-
-
             // ITEM TOP
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Column(
                     modifier = Modifier
                         .size(80.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                        ),
+                        .background(Color.White.copy(alpha = 0.5f)),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.Category,
                         contentDescription = "Item",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = contentColor,
                         modifier = Modifier.size(36.dp)
                     )
                 }
 
-                Spacer(
-                    modifier = Modifier.size(14.dp)
-                )
+                Spacer(modifier = Modifier.size(14.dp))
 
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = report.name,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.Black
                     )
 
-                    Spacer(
-                        modifier = Modifier.height(4.dp)
-                    )
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = report.category,
                         fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = contentColor,
                         fontWeight = FontWeight.Medium
                     )
 
-                    Spacer(
-                        modifier = Modifier.height(6.dp)
-                    )
+                    Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
                         text = report.description,
                         fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = Color.DarkGray
                     )
                 }
             }
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
+            Spacer(modifier = Modifier.height(12.dp))
 
             // LOCATION + DATE
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Location",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(18.dp)
                 )
 
-                Spacer(
-                    modifier = Modifier.size(5.dp)
-                )
+                Spacer(modifier = Modifier.size(5.dp))
 
                 Text(
                     text = report.location,
                     fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = Color.Black
                 )
 
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
+                Spacer(modifier = Modifier.weight(1f))
 
                 Icon(
                     imageVector = Icons.Default.CalendarToday,
                     contentDescription = "Date",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(16.dp)
                 )
 
-                Spacer(
-                    modifier = Modifier.size(5.dp)
-                )
+                Spacer(modifier = Modifier.size(5.dp))
 
                 Text(
                     text = report.date,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = Color.DarkGray
                 )
             }
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
+            Spacer(modifier = Modifier.height(12.dp))
 
             // STATUS
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Type Badge (Lost/Found)
-                Text(
-                    text = report.type,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = if (report.type == "Lost") {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.primary
-                    },
-                    modifier = Modifier
-                        .background(
-                            color = if (report.type == "Lost") {
-                                MaterialTheme.colorScheme.errorContainer
-                            } else {
-                                MaterialTheme.colorScheme.primaryContainer
-                            },
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                        .padding(
-                            horizontal = 10.dp,
-                            vertical = 5.dp
-                        )
-                )
-
-                Spacer(Modifier.width(8.dp))
-
-                // RESOLVED Badge
-                if (report.status == "Resolved") {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    // Type Badge (Lost/Found)
                     Text(
-                        text = "RESOLVED",
+                        text = report.type,
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.ExtraBold,
+                        fontWeight = FontWeight.Bold,
                         color = Color.White,
                         modifier = Modifier
-                            .background(
-                                color = Color(0xFF4CAF50),
-                                shape = RoundedCornerShape(8.dp)
-                            )
+                            .background(color = contentColor, shape = RoundedCornerShape(8.dp))
                             .padding(horizontal = 10.dp, vertical = 5.dp)
                     )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    // RESOLVED Badge
+                    if (report.status == "Resolved") {
+                        Text(
+                            text = "RESOLVED",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White,
+                            modifier = Modifier
+                                .background(color = Color(0xFF4CAF50), shape = RoundedCornerShape(8.dp))
+                                .padding(horizontal = 10.dp, vertical = 5.dp)
+                        )
+                    }
                 }
 
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = onClick) {
                         Text(
-                            text = "VIEW DETAILS",
-                            color = MaterialTheme.colorScheme.primary,
+                            text = "DETAILS",
+                            color = contentColor,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -430,9 +327,10 @@ fun MyReportCard(
                             onClick = onResolveClick,
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                             shape = RoundedCornerShape(10.dp),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+                            modifier = Modifier.height(36.dp)
                         ) {
-                            Text("RESOLVE", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("RESOLVE", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

@@ -182,7 +182,7 @@ fun LoginScreen(
                         start = 24.dp,
                         end = 24.dp,
                         top = 35.dp,
-                        bottom = 150.dp
+                        bottom = 20.dp
                     ),
 
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -574,14 +574,14 @@ fun LoginScreen(
                         fontSize = 16.sp
                     )
                 }
+
+                Spacer(modifier = Modifier.height(50.dp))
+                
+                // Move footer inside the scrollable column
+                GreenFooter(
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
-
-
-            GreenFooter(
-                modifier = Modifier.align(
-                    Alignment.BottomCenter
-                ),
-            )
         }
     }
 }

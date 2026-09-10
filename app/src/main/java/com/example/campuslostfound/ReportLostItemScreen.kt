@@ -193,7 +193,7 @@ fun ReportLostItemScreen(
 
 
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
 
                 label = {
@@ -261,6 +261,9 @@ fun ReportLostItemScreen(
                     value = otherCategory,
                     onValueChange = { otherCategory = it },
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
                     label = { Text("Please specify category") },
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp)
@@ -282,7 +285,7 @@ fun ReportLostItemScreen(
 
 
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
 
                 label = {
@@ -325,7 +328,7 @@ fun ReportLostItemScreen(
                 enabled = false, // Disabled to prevent keyboard, but clickable handles the touch
 
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
 
                 label = {
@@ -373,7 +376,7 @@ fun ReportLostItemScreen(
                     .height(130.dp),
 
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
 
                 label = {

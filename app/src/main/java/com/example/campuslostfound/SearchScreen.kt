@@ -216,6 +216,8 @@ fun SearchLostItemsScreen(
 // on the Profile screen: solid green square icon, bold title, gray subtitle, chevron.
 @Composable
 private fun LostItemRow(item: Item, onClick: () -> Unit) {
+    val iconBackground = if (item.type == "Lost") Color(0xFFB71C1C) else Color(0xFF0D47A1)
+    
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -227,13 +229,13 @@ private fun LostItemRow(item: Item, onClick: () -> Unit) {
             modifier = Modifier
                 .size(42.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.primary),
+                .background(iconBackground),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = if (item.type == "Lost") Icons.Default.Warning else Icons.Default.Inventory2,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary,
+                tint = Color.White,
                 modifier = Modifier.size(20.dp)
             )
         }

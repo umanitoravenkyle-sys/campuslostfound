@@ -226,40 +226,38 @@ fun LostItemCard(
     onMessageClick: () -> Unit,
     isMine: Boolean
 ) {
+    val backgroundColor = Color(0xFFFFEBEE)
+    val contentColor = Color(0xFFB71C1C)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = backgroundColor
         ),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 3.dp
         )
     ) {
-
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Box(
                     modifier = Modifier
                         .size(70.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f),
+                            color = Color.White.copy(alpha = 0.5f),
                             shape = RoundedCornerShape(12.dp)
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.Backpack,
                         contentDescription = "Lost item",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = contentColor,
                         modifier = Modifier.size(36.dp)
                     )
                 }
@@ -271,10 +269,9 @@ fun LostItemCard(
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-
                     Text(
                         text = item.name,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -286,11 +283,10 @@ fun LostItemCard(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-
                         Icon(
                             imageVector = Icons.Default.Category,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = contentColor,
                             modifier = Modifier.size(16.dp)
                         )
 
@@ -300,7 +296,7 @@ fun LostItemCard(
 
                         Text(
                             text = item.category,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = Color.DarkGray,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -313,7 +309,7 @@ fun LostItemCard(
 
             Text(
                 text = item.description,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = Color.Black,
                 style = MaterialTheme.typography.bodyMedium
             )
 
@@ -324,11 +320,10 @@ fun LostItemCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(18.dp)
                 )
 
@@ -338,7 +333,7 @@ fun LostItemCard(
 
                 Text(
                     text = item.location,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = Color.Black,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -350,11 +345,10 @@ fun LostItemCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.CalendarToday,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(17.dp)
                 )
 
@@ -364,7 +358,7 @@ fun LostItemCard(
 
                 Text(
                     text = item.date,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = Color.DarkGray,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -377,11 +371,11 @@ fun LostItemCard(
                 OutlinedButton(
                     onClick = onClick,
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor)
                 ) {
                     Text(
                         text = "DETAILS",
-                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -391,11 +385,11 @@ fun LostItemCard(
                         onClick = onMessageClick,
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        colors = ButtonDefaults.buttonColors(containerColor = contentColor)
                     ) {
                         Text(
                             text = "MESSAGE",
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = Color.White,
                             fontWeight = FontWeight.Bold
                         )
                     }

@@ -12,18 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = lightColorScheme(
+private val DarkColorScheme = darkColorScheme(
     primary = PLMUNGreen,
-    secondary = AppTextSecondary,
-    tertiary = Pink40,
-    background = AppBackground,
-    surface = AppBackground,
+    secondary = Color(0xFF81C784),
+    tertiary = Color(0xFF4DB6AC),
+    background = Color(0xFF121212),
+    surface = Color(0xFF1E1E1E),
     onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = AppTextPrimary,
-    onSurface = AppTextPrimary,
-    outline = AppDividerColor
+    onSecondary = Color.Black,
+    onTertiary = Color.Black,
+    onBackground = Color.White,
+    onSurface = Color.White,
+    outline = Color(0xFF333333),
+    primaryContainer = Color(0xFF2E7D32),
+    onPrimaryContainer = Color.White,
+    surfaceVariant = Color(0xFF2C2C2C),
+    onSurfaceVariant = Color(0xFFBDBDBD)
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -37,7 +41,11 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = AppTextPrimary,
     onSurface = AppTextPrimary,
-    outline = AppDividerColor
+    outline = AppDividerColor,
+    primaryContainer = PLMUNGreenLight,
+    onPrimaryContainer = PLMUNGreen,
+    surfaceVariant = AppSearchFieldBg,
+    onSurfaceVariant = AppTextSecondary
 )
 
 @Composable

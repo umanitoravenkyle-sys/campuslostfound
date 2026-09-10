@@ -577,17 +577,14 @@ fun SignUpScreen(
                         fontSize = 16.sp
                     )
                 }
+
+                Spacer(modifier = Modifier.height(50.dp))
+
+                // Footer as last item in scroll
+                GreenFooter(
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
-
-
-            Spacer(
-                modifier = Modifier.height(30.dp)
-            )
-
-
-            GreenFooter(
-                modifier = Modifier.fillMaxWidth(),
-            )
         }
     }
 }

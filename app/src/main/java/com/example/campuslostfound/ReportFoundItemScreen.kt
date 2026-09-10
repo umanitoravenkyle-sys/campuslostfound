@@ -188,7 +188,7 @@ fun ReportFoundItemScreen(
                 modifier = Modifier.fillMaxWidth(),
 
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onSurface
                 ),
 
                 label = {
@@ -256,6 +256,9 @@ fun ReportFoundItemScreen(
                     value = otherCategory,
                     onValueChange = { otherCategory = it },
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
                     label = { Text("Please specify category") },
                     singleLine = true,
                     shape = RoundedCornerShape(12.dp)
@@ -273,6 +276,10 @@ fun ReportFoundItemScreen(
                 },
 
                 modifier = Modifier.fillMaxWidth(),
+
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
 
                 label = {
                     Text("Location Found")
@@ -311,6 +318,10 @@ fun ReportFoundItemScreen(
 
                 readOnly = true,
                 enabled = false, // Disabled to prevent keyboard, but clickable handles the touch
+
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
 
                 label = {
                     Text("Date Found")
@@ -354,6 +365,10 @@ fun ReportFoundItemScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(130.dp),
+
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    color = MaterialTheme.colorScheme.onSurface
+                ),
 
                 label = {
                     Text("Description")

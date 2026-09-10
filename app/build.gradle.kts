@@ -53,6 +53,10 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
 
+    // Google Maps
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
+
     // Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
 

@@ -39,35 +39,9 @@ fun ProfileScreen(
     onBackClick: () -> Unit,
     onEditProfileClick: () -> Unit = {},
     onNotificationsClick: () -> Unit = {},
-    onSettingsClick: () -> Unit = {},
-    onLogoutClick: () -> Unit = {}
+    onSettingsClick: () -> Unit = {}
 ) {
     val user = viewModel.userData.value
-    var showLogoutDialog by remember { mutableStateOf(false) }
-
-    if (showLogoutDialog) {
-        AlertDialog(
-            onDismissRequest = { showLogoutDialog = false },
-            title = { Text("Logout") },
-            text = { Text("Are you sure you want to log out of your account?") },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        showLogoutDialog = false
-                        viewModel.signOut()
-                        onLogoutClick()
-                    }
-                ) {
-                    Text("LOGOUT", color = Color.Red, fontWeight = FontWeight.Bold)
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showLogoutDialog = false }) {
-                    Text("CANCEL")
-                }
-            }
-        )
-    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -297,63 +271,6 @@ fun ProfileScreen(
                     subtitle = "App preferences",
                     onClick = onSettingsClick
                 )
-
-                Spacer(
-                    modifier = Modifier.height(24.dp)
-                )
-
-                HorizontalDivider()
-
-                Spacer(
-                    modifier = Modifier.height(16.dp)
-                )
-
-                // Logout
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.errorContainer)
-                        .clickable {
-                            showLogoutDialog = true
-                        }
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Icon(
-                        imageVector = Icons.Default.Logout,
-                        contentDescription = "Log Out",
-                        tint = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.size(24.dp)
-                    )
-
-                    Spacer(modifier = Modifier.size(12.dp))
-
-                    Column(
-                        modifier = Modifier.weight(1f)
-                    ) {
-
-                        Text(
-                            text = "Log Out",
-                            color = MaterialTheme.colorScheme.error,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Text(
-                            text = "Sign out of your account",
-                            color = MaterialTheme.colorScheme.onErrorContainer,
-                            fontSize = 13.sp
-                        )
-                    }
-
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                }
 
                 Spacer(
                     modifier = Modifier.height(32.dp)

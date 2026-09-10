@@ -268,167 +268,125 @@ fun FoundItemCard(
     onMessageClick: () -> Unit,
     isMine: Boolean
 ) {
+    val backgroundColor = Color(0xFFE3F2FD)
+    val contentColor = Color(0xFF0D47A1)
 
     Card(
-
-        modifier = Modifier
-            .fillMaxWidth(),
-
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = backgroundColor
         ),
-
         elevation = CardDefaults.cardElevation(
             defaultElevation = 3.dp
         ),
-
         onClick = onClick
     ) {
-
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(14.dp)
+            modifier = Modifier.fillMaxWidth().padding(14.dp)
         ) {
-
-
             // IMAGE PLACEHOLDER
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Column(
                     modifier = Modifier
                         .size(90.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                        ),
+                        .background(Color.White.copy(alpha = 0.5f)),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-
                     Icon(
                         imageVector = Icons.Default.Category,
                         contentDescription = "Item",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = contentColor,
                         modifier = Modifier.size(40.dp)
                     )
                 }
 
-                Spacer(
-                    modifier = Modifier.size(14.dp)
-                )
+                Spacer(modifier = Modifier.size(14.dp))
 
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = item.name,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = Color.Black
                     )
 
-                    Spacer(
-                        modifier = Modifier.height(4.dp)
-                    )
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = item.category,
                         fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = contentColor,
                         fontWeight = FontWeight.Medium
                     )
 
-                    Spacer(
-                        modifier = Modifier.height(8.dp)
-                    )
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
                         text = item.description,
                         fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = Color.DarkGray
                     )
                 }
             }
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
+            Spacer(modifier = Modifier.height(12.dp))
 
             // LOCATION + DATE
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Icon(
                     imageVector = Icons.Default.LocationOn,
                     contentDescription = "Location",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(18.dp)
                 )
 
-                Spacer(
-                    modifier = Modifier.size(5.dp)
-                )
+                Spacer(modifier = Modifier.size(5.dp))
 
                 Text(
                     text = item.location,
                     fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = Color.Black
                 )
 
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
+                Spacer(modifier = Modifier.weight(1f))
 
                 Icon(
                     imageVector = Icons.Default.CalendarToday,
                     contentDescription = "Date",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = contentColor,
                     modifier = Modifier.size(16.dp)
                 )
 
-                Spacer(
-                    modifier = Modifier.size(5.dp)
-                )
+                Spacer(modifier = Modifier.size(5.dp))
 
                 Text(
                     text = item.date,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = Color.DarkGray
                 )
             }
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-
+            Spacer(modifier = Modifier.height(12.dp))
 
             // VIEW DETAILS
-
-
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(
                     onClick = onClick,
                     modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(10.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = contentColor)
                 ) {
                     Text(
                         text = "DETAILS",
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -438,11 +396,11 @@ fun FoundItemCard(
                         onClick = onMessageClick,
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                        colors = ButtonDefaults.buttonColors(containerColor = contentColor)
                     ) {
                         Text(
                             text = "MESSAGE",
-                            color = MaterialTheme.colorScheme.onPrimary,
+                            color = Color.White,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Bold
                         )

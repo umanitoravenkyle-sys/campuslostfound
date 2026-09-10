@@ -123,6 +123,41 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
     }
 
+    fun isDarkMode(): Boolean {
+        return prefs.getBoolean("dark_mode", false)
+    }
+
+    fun setDarkMode(enabled: Boolean) {
+        prefs.edit().putBoolean("dark_mode", enabled).apply()
+    }
+
+    fun getLanguage(): String {
+        return prefs.getString("app_language", "English (US)") ?: "English (US)"
+    }
+
+    fun setLanguage(lang: String) {
+        prefs.edit().putString("app_language", lang).apply()
+    }
+
+    fun changePassword(newPassword: String, onComplete: (Boolean, String?) -> Unit) {
+        val user = auth.currentUser
+        if (user == null) {
+            onComplete(false, "User not logged in.")
+            return
+        }
+
+        _isLoading.value = true
+        user.updatePassword(newPassword)
+            .addOnCompleteListener { task ->
+                _isLoading.value = false
+                if (task.isSuccessful) {
+                    onComplete(true, "Password updated successfully.")
+                } else {
+                    onComplete(false, task.exception?.message ?: "Failed to update password.")
+                }
+            }
+    }
+
     fun clearError() {
         _errorMessage.value = null
     }

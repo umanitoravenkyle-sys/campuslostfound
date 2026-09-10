@@ -7,8 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,9 +24,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            CampusLostFoundTheme {
+            val authViewModel: AuthViewModel = viewModel()
+            val isDark by remember { mutableStateOf(authViewModel.isDarkMode()) }
+            var currentDarkTheme by remember { mutableStateOf(isDark) }
 
-                val authViewModel: AuthViewModel = viewModel()
+            CampusLostFoundTheme(darkTheme = currentDarkTheme) {
+
                 val itemViewModel: ItemViewModel = viewModel()
                 val chatViewModel: ChatViewModel = viewModel()
                 val notifViewModel: NotificationViewModel = viewModel()
@@ -44,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         startDestination = if (isUserAuthenticated) "home" else "login"
                     ) {
 
-                        // Login Screen
+                        // Login Screen]
                         composable("login") {
                             LoginScreen(
                                 viewModel = authViewModel,
@@ -106,6 +108,18 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onProfileClick = {
                                     navController.navigate("profile")
+                                },
+                                onSettingsClick = {
+                                    navController.navigate("settings")
+                                },
+                                onLogoutClick = {
+                                    navController.navigate("login") {
+                                        popUpTo(0) { inclusive = true }
+                                        launchSingleTop = true
+                                    }
+                                },
+                                onMapClick = {
+                                    navController.navigate("map_screen")
                                 },
                                 onItemClick = { itemId ->
                                     navController.navigate("item_detail/$itemId")
@@ -186,16 +200,6 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onSettingsClick = {
                                     navController.navigate("settings")
-                                },
-
-                                // UPDATED LOGOUT
-                                onLogoutClick = {
-                                    navController.navigate("login") {
-                                        popUpTo(0) {
-                                            inclusive = true
-                                        }
-                                        launchSingleTop = true
-                                    }
                                 }
                             )
                         }
@@ -235,6 +239,8 @@ class MainActivity : ComponentActivity() {
                         // Settings
                         composable("settings") {
                             SettingsScreen(
+                                viewModel = authViewModel,
+                                onThemeChange = { currentDarkTheme = it },
                                 onBackClick = {
                                     navController.popBackStack()
                                 }
@@ -315,6 +321,15 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onMessageClick = { chatId, name ->
                                     navController.navigate("chat_detail/$chatId/$name")
+                                }
+                            )
+                        }
+
+                        // Live Map
+                        composable("map_screen") {
+                            MapScreen(
+                                onBackClick = {
+                                    navController.popBackStack()
                                 }
                             )
                         }
