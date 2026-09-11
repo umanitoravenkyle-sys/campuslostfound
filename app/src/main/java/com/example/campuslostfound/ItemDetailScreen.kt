@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import com.example.campuslostfound.model.Item
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,7 +88,6 @@ fun ItemDetailScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(20.dp)
         ) {
-            // Header Image Placeholder
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -95,12 +96,21 @@ fun ItemDetailScreen(
                     .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = if (item.type == "Lost") Icons.Default.Warning else Icons.Default.Inventory2,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(80.dp)
-                )
+                if (item.imageUrl != null) {
+                    AsyncImage(
+                        model = item.imageUrl,
+                        contentDescription = "Item Photo",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Icon(
+                        imageVector = if (item.type == "Lost") Icons.Default.Warning else Icons.Default.Inventory2,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(80.dp)
+                    )
+                }
                 
                 // Status Badge
                 Surface(

@@ -1,5 +1,7 @@
 package com.example.campuslostfound
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -13,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class ItemViewModel : ViewModel() {
     private val repository = ItemRepository()
+    private val imageRepo = ImageRepository()
 
     private val _lostItems = MutableStateFlow<List<Item>>(emptyList())
     val lostItems: StateFlow<List<Item>> = _lostItems
@@ -30,6 +33,10 @@ class ItemViewModel : ViewModel() {
     val errorMessage: State<String?> = _errorMessage
 
     init {
+        refreshItems()
+    }
+
+    fun refreshItems() {
         fetchLostItems()
         fetchFoundItems()
     }
@@ -67,11 +74,22 @@ class ItemViewModel : ViewModel() {
         type: String,
         userId: String,
         userName: String,
+        imageUri: Uri? = null,
+        context: Context? = null,
         onSuccess: () -> Unit
     ) {
         viewModelScope.launch {
             _isLoading.value = true
             _errorMessage.value = null
+            
+            var finalImageUrl: String? = null
+            
+            if (imageUri != null && context != null) {
+                finalImageUrl = imageRepo.uploadImage(context, imageUri)
+                if (finalImageUrl == null) {
+                    _errorMessage.value = "Failed to upload image. Item will be reported without it."
+                }
+            }
             
             val item = Item(
                 name = name,
@@ -82,6 +100,7 @@ class ItemViewModel : ViewModel() {
                 type = type,
                 reportedBy = userId,
                 reporterName = userName,
+                imageUrl = finalImageUrl,
                 timestamp = Timestamp.now()
             )
 

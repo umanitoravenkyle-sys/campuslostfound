@@ -23,20 +23,8 @@ import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,12 +33,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.campuslostfound.model.Item
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun LostItemsScreen(
     authViewModel: AuthViewModel,
@@ -230,7 +221,7 @@ fun LostItemCard(
     val contentColor = Color(0xFFB71C1C)
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
@@ -248,18 +239,25 @@ fun LostItemCard(
                 Box(
                     modifier = Modifier
                         .size(70.dp)
-                        .background(
-                            color = Color.White.copy(alpha = 0.5f),
-                            shape = RoundedCornerShape(12.dp)
-                        ),
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(color = Color.White.copy(alpha = 0.5f)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Backpack,
-                        contentDescription = "Lost item",
-                        tint = contentColor,
-                        modifier = Modifier.size(36.dp)
-                    )
+                    if (item.imageUrl != null) {
+                        AsyncImage(
+                            model = item.imageUrl,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Backpack,
+                            contentDescription = "Lost item",
+                            tint = contentColor,
+                            modifier = Modifier.size(36.dp)
+                        )
+                    }
                 }
 
                 Spacer(
@@ -310,7 +308,8 @@ fun LostItemCard(
             Text(
                 text = item.description,
                 color = Color.Black,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 2
             )
 
             Spacer(

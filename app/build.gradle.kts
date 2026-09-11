@@ -57,6 +57,14 @@ dependencies {
     implementation(libs.maps.compose)
     implementation(libs.play.services.maps)
 
+    // Free Image Hosting & Loading
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+
     // Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
 
